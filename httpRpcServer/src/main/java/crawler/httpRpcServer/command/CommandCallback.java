@@ -26,7 +26,7 @@ public class CommandCallback {
 			e.printStackTrace();
 			result += String.format("%s", e);
 		}
-		log.info(text);
+		log.error(text);
 	}
 
 	public void stdinCallBack(String encoding,InputStream stream) {
@@ -38,7 +38,7 @@ public class CommandCallback {
 			e.printStackTrace();
 			result += String.format("%s", e);
 		}
-		log.info(text);
+		log.debug(text);
 	}
 
 	public String getResult() {

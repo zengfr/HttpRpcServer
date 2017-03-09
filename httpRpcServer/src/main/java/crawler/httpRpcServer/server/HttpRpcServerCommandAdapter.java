@@ -21,7 +21,7 @@ public class HttpRpcServerCommandAdapter {
 	private static Log log = LogFactory.getLog(HttpRpcServerCommandAdapter.class);
 
 	public String parseAndProcess(HttpRpcCommandProcess commandProcess,String uri,List<Entry<CharSequence, CharSequence>> heads, String content) throws Exception {
-		String rtn = "Empty";
+		String rtn = "[Empty]";
 		QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri);
 		Map<String, List<String>> params = queryStringDecoder.parameters();
 		String token = "";

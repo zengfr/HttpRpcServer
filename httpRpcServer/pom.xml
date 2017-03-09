@@ -4,7 +4,7 @@
 
 	<groupId>crawler</groupId>
 	<artifactId>httpRpcServer</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>httpRpcServer</name>
@@ -41,7 +41,6 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 <dependency>
     <groupId>org.apache.httpcomponents</groupId>
     <artifactId>httpclient</artifactId>

@@ -3,7 +3,6 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -21,7 +20,6 @@ import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderUtil;
 import io.netty.handler.codec.http.HttpHeaderValues;
-import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMessage;
 import io.netty.handler.codec.http.HttpRequest;
 /**
@@ -45,7 +43,7 @@ public class HttpRpcServerInboundHandler extends ChannelHandlerAdapter {
             String uri = request.uri();
             log.info(String.format("Uri:%s", uri));
         }
-        if (msg instanceof HttpMessage) {
+        else if (msg instanceof HttpMessage) {
         	HttpMessage  httpMessage = (HttpMessage) msg;
             log.info(String.format("Message:%s",httpMessage));
         }
@@ -63,7 +61,7 @@ public class HttpRpcServerInboundHandler extends ChannelHandlerAdapter {
             String rtn=commandAdapter.parseAndProcess(commandProcess,uri,heads,contentString);
             
             String res = String.format("%s",rtn);rtn=null;
-            log.info(String.format("resp:%s", res));
+            log.debug(String.format("Resp:%s", res));
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(res.getBytes(defaultEncoding)));
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html");
             response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH,response.content().readableBytes());
