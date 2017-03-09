@@ -1,8 +1,13 @@
 package crawler.httpRpcServer.process;
 
+import java.util.List;
+import java.util.Map.Entry;
+
 import crawler.httpRpcServer.command.CommandCallback;
 import crawler.httpRpcServer.command.CommandExecUtil;
+import crawler.httpRpcServer.command.CommandHttpUtil;
 import crawler.httpRpcServer.command.CommandPppoeUtil;
+import io.netty.handler.codec.http.HttpHeaders;
 
 /**
  * @author zengfr
@@ -12,10 +17,13 @@ import crawler.httpRpcServer.command.CommandPppoeUtil;
 public class HttpRpcCommandProcessImpl  implements  HttpRpcCommandProcess{
 
 	@Override
-	public String execCmd(String type, String cmd, String... args) throws Exception {
+	public String execCmd(String type, String cmd,String[] args,List<Entry<CharSequence, CharSequence>> heads, String content) throws Exception {
 		CommandCallback cmdCallback = new CommandCallback();
 		type=type.toLowerCase();
 		switch (type) {
+		case "http":
+			CommandHttpUtil.exec(cmd,args,heads,content, cmdCallback);
+			break;
 		case "exec":
 			CommandExecUtil.execCmd(cmd, cmdCallback);
 			break;

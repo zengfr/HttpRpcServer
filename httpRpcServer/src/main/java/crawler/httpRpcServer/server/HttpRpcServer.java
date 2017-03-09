@@ -21,7 +21,7 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 public class HttpRpcServer {
 private static Log log = LogFactory.getLog(HttpRpcServer.class);
     
-    public void start(final HttpRpcCommandProcess commandProcess,int port) throws Exception {
+    public void start(final HttpRpcCommandProcess commandProcess,String inetHost,int port) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -37,8 +37,8 @@ private static Log log = LogFactory.getLog(HttpRpcServer.class);
                             }).option(ChannelOption.SO_BACKLOG, 128) 
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
-            ChannelFuture f = b.bind(port).sync();
-
+            ChannelFuture f = b.bind(inetHost,port).sync();
+            
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();

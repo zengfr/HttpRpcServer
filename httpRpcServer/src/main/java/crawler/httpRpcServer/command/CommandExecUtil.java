@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CommandExecUtil {
 	private static Log log = LogFactory.getLog(CommandExecUtil.class);
-
+	private static final String defaultEncoding = "UTF-8";
 	public static boolean isOSWindows() {
 		String os = System.getProperty("os.name");
 		if (os.toLowerCase().startsWith("win")) {
@@ -36,13 +36,13 @@ public class CommandExecUtil {
 				final InputStream std2 = p.getErrorStream();
 				new Thread() {
 					public void run() {
-						cmdCallback.stderrCallback(std2);
+						cmdCallback.stderrCallback(defaultEncoding,std2);
 					}
 				}.start();
 
 				new Thread() {
 					public void run() {
-						cmdCallback.stdinCallBack(std1);
+						cmdCallback.stdinCallBack(defaultEncoding,std1);
 					}
 				}.start();
 				p.waitFor();
@@ -62,7 +62,7 @@ public class CommandExecUtil {
 		} else {
 			p = rt.exec(new String[] { "/bin/bash", "-c", command }, null, null);
 			p.waitFor();
-			InputStreamReader isr = new InputStreamReader(p.getInputStream(), "utf-8");
+			InputStreamReader isr = new InputStreamReader(p.getInputStream(), defaultEncoding);
 			BufferedReader br = new BufferedReader(isr);
 			String line = null;
 			while ((line = br.readLine()) != null) {
@@ -71,6 +71,7 @@ public class CommandExecUtil {
 			isr.close();
 			br.close();
 		}
+		p=null;
 	}
 
 }

@@ -13,29 +13,30 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CommandCallback {
 	private static Log log = LogFactory.getLog(CommandCallback.class);
-	private static final String encoding = "gbk";
 	private String result = "";
-
-	public void stderrCallback(InputStream stream) {
+	public CommandCallback (){
+		
+	}
+	public void stderrCallback(String encoding,InputStream stream) {
 		String text = "";
 		try {
 			text = IOUtils.toString(stream, encoding);
-			result += String.format(" err:%s", text);
+			result += String.format("%s", text);
 		} catch (IOException e) {
 			e.printStackTrace();
-			result += String.format(" ex:%s", e);
+			result += String.format("%s", e);
 		}
 		log.info(text);
 	}
 
-	public void stdinCallBack(InputStream stream) {
+	public void stdinCallBack(String encoding,InputStream stream) {
 		String text = "";
 		try {
 			text = IOUtils.toString(stream, encoding);
-			result += String.format(" in:%s", text);
+			result += String.format("%s", text);
 		} catch (IOException e) {
 			e.printStackTrace();
-			result += String.format(" ex:%s", e);
+			result += String.format("%s", e);
 		}
 		log.info(text);
 	}

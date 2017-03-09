@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>4.1.8.Final</version>
+			<version>5.0.0.Alpha2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -41,9 +41,16 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.3</version>
+</dependency>
 
 	</dependencies>
 	<build>
+	   <defaultGoal>compile</defaultGoal>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -52,10 +59,28 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<targetPath>${project.build.directory}</targetPath>
-				<includes><include>*.cmd</include></includes>
+				<includes>
+				<include>*.cmd</include>
+				<include>*.txt</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
+		<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<archive>
+							<addMavenDescriptor>true</addMavenDescriptor>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<classpathPrefix>lib/</classpathPrefix>
+								<mainClass>crawler.httpRpcServer.HttpRpcServerApp</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
 		   <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -80,22 +105,14 @@
 				<version>2.3</version>
 				<configuration>
 					<appendAssemblyId>false</appendAssemblyId>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
 					<descriptor>src/main/assembly/assembly.xml</descriptor>
-					<archive>
-						<manifest>
-							<mainClass>crawler.httpRpcServer.HttpRpcServerApp</mainClass>
-						</manifest>
-					</archive>
 				</configuration>
 				<executions>
 					<execution>
 						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>assembly</goal>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>

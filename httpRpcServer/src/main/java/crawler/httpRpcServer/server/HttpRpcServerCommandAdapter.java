@@ -2,12 +2,14 @@ package crawler.httpRpcServer.server;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import crawler.httpRpcServer.process.HttpRpcCommandProcess;
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
 /**
@@ -18,13 +20,9 @@ import io.netty.handler.codec.http.QueryStringDecoder;
 public class HttpRpcServerCommandAdapter {
 	private static Log log = LogFactory.getLog(HttpRpcServerCommandAdapter.class);
 
-	public String parseAndProcess(HttpRpcCommandProcess commandProcess, String body) throws Exception {
+	public String parseAndProcess(HttpRpcCommandProcess commandProcess,String uri,List<Entry<CharSequence, CharSequence>> heads, String content) throws Exception {
 		String rtn = "Empty";
-		if (body == null)
-			return "NULL";
-		if (!body.startsWith("?"))
-			body = "?" + body;
-		QueryStringDecoder queryStringDecoder = new QueryStringDecoder(body);
+		QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri);
 		Map<String, List<String>> params = queryStringDecoder.parameters();
 		String token = "";
 		String type = "";
@@ -45,10 +43,12 @@ public class HttpRpcServerCommandAdapter {
 			}
 			log.info(String.format("type:%s,cmd:%s,args:%s,token:%s", type, cmd, args, token));
 			if (token != null && !token.isEmpty() && type != null && !type.isEmpty()) {
-				String result = commandProcess.execCmd(type, cmd, args);
-				rtn += String.format("callback:%s", result);
+				String result = commandProcess.execCmd(type, cmd, args,heads,content);
+				rtn= String.format("%s", result);
+				result=null;
 			}
 		}
+		queryStringDecoder=null;params=null;
 		return rtn;
 	}
 }
