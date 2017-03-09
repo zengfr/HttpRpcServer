@@ -11,7 +11,7 @@ HttpRpcServer listening on port:8844...
 
 Url：http://127.0.0.1:8844/?
 
-1、example: token=1&type=exec&cmd=cmdstr
+1、example: token=1&type=exec&cmd=netstat -ano
 
 2、example: token=1&type=cmd&cmd=dir
 
